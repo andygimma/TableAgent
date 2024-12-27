@@ -1,10 +1,5 @@
 import "./App.css";
-import {
-  BrowserRouter as Router,
-  Route,
-  Routes,
-  useNavigate,
-} from "react-router-dom";
+import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import Home from "./pages/Home";
 import Login from "./pages/Login";
 import Signup from "./pages/Signup";
@@ -15,34 +10,6 @@ import AuthContext from "./contexts/Auth";
 import { Session } from "@supabase/supabase-js";
 import ProtectedRoute from "./session-routes/ProtectedRoute";
 import AuthenticationRoute from "./session-routes/AuthenticationRoute";
-// NOTHHING HERE
-
-// const [count, setCount] = useState(0);
-// const [user, setUser] = useState<SetStateAction<User | null>>();
-
-// useEffect(() => {
-//   async function getAuth() {
-// const { data } = await supabase.auth.getUser();
-//     setUser(data.user);
-//   }
-//   getAuth();
-
-const { data } = supabaseClient.auth.onAuthStateChange((event, session) => {
-  if (event === "INITIAL_SESSION") {
-    // handle initial session
-  } else if (event === "SIGNED_IN") {
-    // handle sign in event
-  } else if (event === "SIGNED_OUT") {
-    // handle sign out event
-  } else if (event === "PASSWORD_RECOVERY") {
-    // handle password recovery event
-  } else if (event === "TOKEN_REFRESHED") {
-    // handle token refreshed event
-  } else if (event === "USER_UPDATED") {
-    // handle user updated event
-  }
-});
-// }, []);
 
 function App() {
   const [session, setSession] = useState<Session | null>(null);
@@ -50,7 +17,6 @@ function App() {
 
   useEffect(() => {
     supabaseClient.auth.getSession().then(({ data: { session } }) => {
-      console.log(session, "APP");
       setSession(session);
       setIsLoading(false);
     });
@@ -65,29 +31,8 @@ function App() {
     return () => subscription.unsubscribe();
   }, []);
 
-  // useEffect(() => {
-  //   const { data } = supabaseClient.auth.onAuthStateChange((event, session) => {
-  //     if (event === "INITIAL_SESSION") {
-  //       // setSession(session);
-  //       // handle initial session
-  //     } else if (event === "SIGNED_IN") {
-  //       // handle sign in event
-  //     } else if (event === "SIGNED_OUT") {
-  //       // handle sign out event
-  //     } else if (event === "PASSWORD_RECOVERY") {
-  //       // handle password recovery event
-  //     } else if (event === "TOKEN_REFRESHED") {
-  //       // handle token refreshed event
-  //     } else if (event === "USER_UPDATED") {
-  //       // handle user updated event
-  //     }
-  //   });
-  // }, []);
-
   const handleLogout = async () => {
-    const data = await supabaseClient.auth.signOut();
-    // const navigate = useNavigate();
-    // navigate("/login");
+    supabaseClient.auth.signOut();
   };
 
   if (isLoading) {
@@ -125,6 +70,7 @@ function App() {
                 </ProtectedRoute>
               }
             />
+            <Route path="*" element={<>404</>} />
           </Routes>
         </Router>
       </AuthContext.Provider>
