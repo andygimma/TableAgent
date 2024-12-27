@@ -2,6 +2,7 @@ import { useEffect, useState, useContext } from "react";
 import supabaseClient from "../services/supabase";
 import { useNavigate } from "react-router-dom";
 import AuthContext from "../contexts/Auth";
+import { ToastContainer, toast } from "react-toastify";
 
 export default function Signup() {
   const [data, setData] = useState({});
@@ -30,18 +31,21 @@ export default function Signup() {
   }, []);
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    const { data, error } = await supabaseClient.auth.signUp({
+    const { error } = await supabaseClient.auth.signUp({
       email,
       password,
-      options: {
-        data: {
-          first_name: "Andy",
-        },
-      },
     });
+
+    if (error) {
+      toast(error.message, {
+        theme: "dark",
+      });
+      return;
+    }
   };
   return (
     <div>
+      <ToastContainer />
       <h1>Signup</h1>
       <form onSubmit={handleSubmit}>
         <input

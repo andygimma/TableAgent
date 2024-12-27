@@ -1,13 +1,10 @@
-import { useState, useContext, useEffect } from "react";
+import { useState } from "react";
 import supabaseClient from "../services/supabase";
-import { useNavigate } from "react-router-dom";
-import AuthContext from "../contexts/Auth";
+import { ToastContainer, toast } from "react-toastify";
 
 export default function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const navigate = useNavigate();
-  const loggedIn = useContext(AuthContext);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -16,12 +13,16 @@ export default function Login() {
       password,
     });
     if (error) {
+      toast(error.message, {
+        theme: "dark",
+      });
       return;
     }
   };
 
   return (
     <div>
+      <ToastContainer />
       <h1>Login</h1>
       <form onSubmit={handleSubmit}>
         <input
