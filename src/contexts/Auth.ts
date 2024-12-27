@@ -7,7 +7,6 @@ import { Session } from "@supabase/supabase-js";
 // const { data } = await supabaseClient.auth.getUser();
 // if (data?.user?.id) {
 //   loggedIn = true;
-//   console.log({ loggedIn }, 1);
 // }
 
 const AuthContext = createContext<Session | null>(null);

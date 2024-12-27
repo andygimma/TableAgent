@@ -13,6 +13,8 @@ import supabaseClient from "./services/supabase";
 import { useEffect, useState } from "react";
 import AuthContext from "./contexts/Auth";
 import { Session } from "@supabase/supabase-js";
+import ProtectedRoute from "./session-routes/ProtectedRoute";
+import AuthenticationRoute from "./session-routes/AuthenticationRoute";
 // NOTHHING HERE
 
 // const [count, setCount] = useState(0);
@@ -26,15 +28,11 @@ import { Session } from "@supabase/supabase-js";
 //   getAuth();
 
 const { data } = supabaseClient.auth.onAuthStateChange((event, session) => {
-  console.log(event, session);
-
   if (event === "INITIAL_SESSION") {
-    console.log("INITIAL_SESSION ***");
     // handle initial session
   } else if (event === "SIGNED_IN") {
     // handle sign in event
   } else if (event === "SIGNED_OUT") {
-    console.log("SIGNED_OUT ***");
     // handle sign out event
   } else if (event === "PASSWORD_RECOVERY") {
     // handle password recovery event
@@ -46,17 +44,13 @@ const { data } = supabaseClient.auth.onAuthStateChange((event, session) => {
 });
 // }, []);
 
-const handleLogout = async () => {
-  const data = await supabaseClient.auth.signOut();
-  console.log({ data });
-};
-
 function App() {
   const [session, setSession] = useState<Session | null>(null);
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
     supabaseClient.auth.getSession().then(({ data: { session } }) => {
+      console.log(session, "APP");
       setSession(session);
       setIsLoading(false);
     });
@@ -71,28 +65,30 @@ function App() {
     return () => subscription.unsubscribe();
   }, []);
 
-  useEffect(() => {
-    const { data } = supabaseClient.auth.onAuthStateChange((event, session) => {
-      console.log(event, session);
+  // useEffect(() => {
+  //   const { data } = supabaseClient.auth.onAuthStateChange((event, session) => {
+  //     if (event === "INITIAL_SESSION") {
+  //       // setSession(session);
+  //       // handle initial session
+  //     } else if (event === "SIGNED_IN") {
+  //       // handle sign in event
+  //     } else if (event === "SIGNED_OUT") {
+  //       // handle sign out event
+  //     } else if (event === "PASSWORD_RECOVERY") {
+  //       // handle password recovery event
+  //     } else if (event === "TOKEN_REFRESHED") {
+  //       // handle token refreshed event
+  //     } else if (event === "USER_UPDATED") {
+  //       // handle user updated event
+  //     }
+  //   });
+  // }, []);
 
-      if (event === "INITIAL_SESSION") {
-        setSession(session);
-        console.log("INITIAL_SESSION ***");
-        // handle initial session
-      } else if (event === "SIGNED_IN") {
-        // handle sign in event
-      } else if (event === "SIGNED_OUT") {
-        console.log("SIGNED_OUT ***");
-        // handle sign out event
-      } else if (event === "PASSWORD_RECOVERY") {
-        // handle password recovery event
-      } else if (event === "TOKEN_REFRESHED") {
-        // handle token refreshed event
-      } else if (event === "USER_UPDATED") {
-        // handle user updated event
-      }
-    });
-  }, []);
+  const handleLogout = async () => {
+    const data = await supabaseClient.auth.signOut();
+    // const navigate = useNavigate();
+    // navigate("/login");
+  };
 
   if (isLoading) {
     return <p>Loading...</p>;
@@ -105,9 +101,30 @@ function App() {
         <Router>
           <Routes>
             <Route path="/" element={<Home />} />
-            <Route path="/login" element={<Login />} />
-            <Route path="/signup" element={<Signup />} />
-            <Route path="/dashboard" element={<Dashboard />} />
+            <Route
+              path="/login"
+              element={
+                <AuthenticationRoute>
+                  <Login />
+                </AuthenticationRoute>
+              }
+            />
+            <Route
+              path="/signup"
+              element={
+                <AuthenticationRoute>
+                  <Signup />
+                </AuthenticationRoute>
+              }
+            />
+            <Route
+              path="/dashboard"
+              element={
+                <ProtectedRoute>
+                  <Dashboard />
+                </ProtectedRoute>
+              }
+            />
           </Routes>
         </Router>
       </AuthContext.Provider>

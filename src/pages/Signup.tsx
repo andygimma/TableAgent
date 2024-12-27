@@ -15,7 +15,6 @@ export default function Signup() {
 
   useEffect(() => {
     if (loggedIn) {
-      console.log("HELLO");
       navigate("/");
     }
   }, [loggedIn]);
@@ -24,9 +23,7 @@ export default function Signup() {
     const fetchCurrentUser = async () => {
       const { data, error } = await supabaseClient.auth.getUser();
       if (error) {
-        console.log(error.message);
       }
-      console.log({ data });
       setData(data);
     };
     fetchCurrentUser();
@@ -42,9 +39,6 @@ export default function Signup() {
         },
       },
     });
-
-    console.log({ data, error });
-    // TODO Handle error
   };
   return (
     <div>

@@ -9,11 +9,6 @@ export default function Login() {
   const navigate = useNavigate();
   const loggedIn = useContext(AuthContext);
 
-  useEffect(() => {
-    if (loggedIn) {
-      navigate("/");
-    }
-  }, [loggedIn]);
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     const { data, error } = await supabaseClient.auth.signInWithPassword({
@@ -21,11 +16,8 @@ export default function Login() {
       password,
     });
     if (error) {
-      console.log(error.message);
       return;
     }
-
-    console.log({ data, error });
   };
 
   return (
