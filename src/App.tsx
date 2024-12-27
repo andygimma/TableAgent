@@ -37,40 +37,15 @@ import supabase from "./supabase/client";
 //   });
 // }, []);
 
-// async function login() {
-//   // supabase.auth.onAuthStateChange *******************
-//   const { data, error } = await supabase.auth.signInWithPassword({
-//     email: "andrewgimma@a.com",
-//     password: "4!i{Gh£|9.^2",
-//   });
-//   if (error) {
-//     console.log(error.message);
-//   }
-//   console.log({ data, error });
-// }
-
-// async function logout() {
-//   const { error } = await supabase.auth.signOut();
-//   console.log({ error });
-// }
-
-// async function signup() {
-//   const { data, error } = await supabase.auth.signUp({
-//     email: "andy@protonmail.com",
-//     password: "example-password",
-//     options: {
-//       data: {
-//         first_name: "Andy",
-//         age: 27,
-//       },
-//     },
-//   });
-//   console.log({ data, error });
-// }
+const handleLogout = async () => {
+  const data = await supabase.auth.signOut();
+  console.log({ data });
+};
 
 function App() {
   return (
     <>
+      <button onClick={handleLogout}>Logout</button>
       <Router>
         <Routes>
           <Route path="/" element={<Home />} />
