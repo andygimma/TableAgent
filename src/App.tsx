@@ -4,14 +4,15 @@ import Home from "./pages/Home";
 import Login from "./pages/Login";
 import Signup from "./pages/Signup";
 import Dashboard from "./pages/Dashboard";
-import supabase from "./supabase/client";
+import supabaseClient from "./services/supabase";
+import { useEffect, useState } from "react";
 
 // const [count, setCount] = useState(0);
 // const [user, setUser] = useState<SetStateAction<User | null>>();
 
 // useEffect(() => {
 //   async function getAuth() {
-//     const { data } = await supabase.auth.getUser();
+// const { data } = await supabase.auth.getUser();
 //     setUser(data.user);
 //   }
 //   getAuth();
@@ -38,11 +39,22 @@ import supabase from "./supabase/client";
 // }, []);
 
 const handleLogout = async () => {
-  const data = await supabase.auth.signOut();
+  const data = await supabaseClient.auth.signOut();
   console.log({ data });
 };
 
 function App() {
+  useEffect(() => {
+    const fetchCurrentUser = async () => {
+      const { data, error } = await supabaseClient.auth.getUser();
+      if (error) {
+        console.log(error.message);
+      }
+      console.log({ data });
+    };
+    fetchCurrentUser();
+  }, []);
+
   return (
     <>
       <button onClick={handleLogout}>Logout</button>

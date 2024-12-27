@@ -1,5 +1,5 @@
 import { useState } from "react";
-import supabase from "../supabase/client";
+import supabaseClient from "../services/supabase";
 
 export default function Signup() {
   const [email, setEmail] = useState("");
@@ -8,7 +8,7 @@ export default function Signup() {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    const { data, error } = await supabase.auth.signUp({
+    const { data, error } = await supabaseClient.auth.signUp({
       email,
       password,
       options: {
@@ -17,7 +17,9 @@ export default function Signup() {
         },
       },
     });
+
     console.log({ data, error });
+    // TODO Handle error
   };
   return (
     <div>
