@@ -1,5 +1,10 @@
 import "./App.css";
-import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
+import {
+  BrowserRouter as Router,
+  Route,
+  Routes,
+  useNavigate,
+} from "react-router-dom";
 import Home from "./pages/Home";
 import Login from "./pages/Login";
 import Signup from "./pages/Signup";
@@ -20,25 +25,25 @@ import { Session } from "@supabase/supabase-js";
 //   }
 //   getAuth();
 
-//   const { data } = supabase.auth.onAuthStateChange((event, session) => {
-//     console.log(event, session);
+const { data } = supabaseClient.auth.onAuthStateChange((event, session) => {
+  console.log(event, session);
 
-//     if (event === "INITIAL_SESSION") {
-//       console.log("INITIAL_SESSION ***");
-//       // handle initial session
-//     } else if (event === "SIGNED_IN") {
-//       // handle sign in event
-//     } else if (event === "SIGNED_OUT") {
-//       console.log("SIGNED_OUT ***");
-//       // handle sign out event
-//     } else if (event === "PASSWORD_RECOVERY") {
-//       // handle password recovery event
-//     } else if (event === "TOKEN_REFRESHED") {
-//       // handle token refreshed event
-//     } else if (event === "USER_UPDATED") {
-//       // handle user updated event
-//     }
-//   });
+  if (event === "INITIAL_SESSION") {
+    console.log("INITIAL_SESSION ***");
+    // handle initial session
+  } else if (event === "SIGNED_IN") {
+    // handle sign in event
+  } else if (event === "SIGNED_OUT") {
+    console.log("SIGNED_OUT ***");
+    // handle sign out event
+  } else if (event === "PASSWORD_RECOVERY") {
+    // handle password recovery event
+  } else if (event === "TOKEN_REFRESHED") {
+    // handle token refreshed event
+  } else if (event === "USER_UPDATED") {
+    // handle user updated event
+  }
+});
 // }, []);
 
 const handleLogout = async () => {
@@ -64,6 +69,29 @@ function App() {
     });
 
     return () => subscription.unsubscribe();
+  }, []);
+
+  useEffect(() => {
+    const { data } = supabaseClient.auth.onAuthStateChange((event, session) => {
+      console.log(event, session);
+
+      if (event === "INITIAL_SESSION") {
+        setSession(session);
+        console.log("INITIAL_SESSION ***");
+        // handle initial session
+      } else if (event === "SIGNED_IN") {
+        // handle sign in event
+      } else if (event === "SIGNED_OUT") {
+        console.log("SIGNED_OUT ***");
+        // handle sign out event
+      } else if (event === "PASSWORD_RECOVERY") {
+        // handle password recovery event
+      } else if (event === "TOKEN_REFRESHED") {
+        // handle token refreshed event
+      } else if (event === "USER_UPDATED") {
+        // handle user updated event
+      }
+    });
   }, []);
 
   if (isLoading) {

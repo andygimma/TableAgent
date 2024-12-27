@@ -8,7 +8,6 @@ export default function Signup() {
   const navigate = useNavigate();
 
   const loggedIn = useContext(AuthContext);
-  console.log("Signup", loggedIn);
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
