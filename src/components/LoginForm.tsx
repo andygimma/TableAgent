@@ -23,7 +23,7 @@ export default function LoginForm() {
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
       <input type="text" {...register("email", { required: true })} />
-      {errors.password && <span>Email is required</span>}
+      {errors.password && <span role="alert">Email is required</span>}
       <input
         type="password"
         {...register("password", {
@@ -32,10 +32,10 @@ export default function LoginForm() {
         })}
       />
       {errors?.password?.type === "required" && (
-        <span>Password is required.</span>
+        <span role="alert">Password is required.</span>
       )}
       {errors?.password?.type === "minLength" && (
-        <span>Password must be 8 characters long.</span>
+        <span role="alert">Password must be 8 characters long.</span>
       )}
 
       <input type="submit" />

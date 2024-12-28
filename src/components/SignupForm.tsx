@@ -25,7 +25,7 @@ export default function SignupForm() {
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
       <input type="text" {...register("email", { required: true })} />
-      {errors.password && <span>Email is required</span>}
+      {errors.password && <span role="alert">Email is required</span>}
       <input
         type="password"
         {...register("password", {
@@ -34,10 +34,10 @@ export default function SignupForm() {
         })}
       />
       {errors?.password?.type === "required" && (
-        <span>Password is required.</span>
+        <span role="alert">Password is required.</span>
       )}
       {errors?.password?.type === "minLength" && (
-        <span>Password must be 8 characters long.</span>
+        <span role="alert">Password must be 8 characters long.</span>
       )}
       <input
         type="password"
@@ -48,7 +48,7 @@ export default function SignupForm() {
         })}
       />
       {errors?.passwordConfirmation?.type === "required" && (
-        <span>Password Confirmation is required.</span>
+        <span role="alert">Password Confirmation is required.</span>
       )}
       {errors?.passwordConfirmation?.type === "validate" && (
         <span>Passwords do not match.</span>
