@@ -1,50 +1,30 @@
-# React + TypeScript + Vite
+# Table AI
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+## Development
 
-Currently, two official plugins are available:
+1. Install [Docker Desktop](https://docs.docker.com/desktop/setup/install/mac-install/)
+2. `npm install`
+3. `cp .env.local .env`
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+### Install Supabase locally
 
-## Expanding the ESLint configuration
+Run `npx supabase init` This will automatically trigger the underlying Docker setup, pull all the required Docker images, and spin them up – in other words, the command creates and starts a fully running Supabase instance without you having to configure it. When the process has completed, you should see a confirmation message and something like this:
 
-If you are developing a production application, we recommend updating the configuration to enable type aware lint rules:
-
-- Configure the top-level `parserOptions` property like this:
-
-```js
-export default tseslint.config({
-  languageOptions: {
-    // other options...
-    parserOptions: {
-      project: ['./tsconfig.node.json', './tsconfig.app.json'],
-      tsconfigRootDir: import.meta.dirname,
-    },
-  },
-})
+```
+API URL: http://localhost:54321
+GraphQL URL: http://localhost:54321/graphql/v1
+DB URL: postgresql://postgres...
+Studio URL: http://localhost:54323
+Inbucket URL: http://localhost:54324
+JWT secret: super-secret-jwt-token...
+anon key: eyJhbGciOiJI...
+service_role key: eyJh...
 ```
 
-- Replace `tseslint.configs.recommended` to `tseslint.configs.recommendedTypeChecked` or `tseslint.configs.strictTypeChecked`
-- Optionally add `...tseslint.configs.stylisticTypeChecked`
-- Install [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) and update the config:
+The API URL and anon key will be stored in your .env file as VITE_SUPABASE_URL_DEV and VITE_SUPABASE_SECRET_KEY_DEV.
 
-```js
-// eslint.config.js
-import react from 'eslint-plugin-react'
+### Running locally
 
-export default tseslint.config({
-  // Set the react version
-  settings: { react: { version: '18.3' } },
-  plugins: {
-    // Add the react plugin
-    react,
-  },
-  rules: {
-    // other rules...
-    // Enable its recommended rules
-    ...react.configs.recommended.rules,
-    ...react.configs['jsx-runtime'].rules,
-  },
-})
-```
+Make sure the Docker Engine is running and the correct information has been copied to .env as mentioned above.
+
+`npm run dev`
