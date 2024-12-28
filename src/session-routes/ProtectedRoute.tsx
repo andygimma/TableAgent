@@ -1,19 +1,8 @@
-import React, { useContext, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
+import { useContext } from "react";
+import { Navigate, Outlet } from "react-router-dom";
 import AuthContext from "../contexts/Auth";
 
-type Props = {
-  children: React.ReactNode;
-};
-
-export default function ProtectedRoute({ children }: Props) {
+export default function ProtectedRoute() {
   const session = useContext(AuthContext);
-  console.log(session, 122);
-  const navigate = useNavigate();
-  useEffect(() => {
-    if (session === null) {
-      navigate("/login");
-    }
-  }, [session]);
-  return <>{children}</>;
+  return session ? <Outlet /> : <Navigate to="/login" />;
 }
