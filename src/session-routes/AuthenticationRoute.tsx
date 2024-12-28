@@ -1,18 +1,8 @@
-import React, { useContext, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
+import { useContext } from "react";
 import AuthContext from "../contexts/Auth";
+import { Navigate, Outlet } from "react-router-dom";
 
-type Props = {
-  children: React.ReactNode;
-};
-
-export default function AuthenticationRoute({ children }: Props) {
+export default function AuthenticationRoute() {
   const session = useContext(AuthContext);
-  const navigate = useNavigate();
-  useEffect(() => {
-    if (session != null) {
-      navigate("/dashboard");
-    }
-  }, [session]);
-  return <>{children}</>;
+  return !session ? <Outlet /> : <Navigate to="/dashboard" />;
 }

@@ -46,22 +46,10 @@ function App() {
         <Router>
           <Routes>
             <Route path="/" element={<Home />} />
-            <Route
-              path="/login"
-              element={
-                <AuthenticationRoute>
-                  <Login />
-                </AuthenticationRoute>
-              }
-            />
-            <Route
-              path="/signup"
-              element={
-                <AuthenticationRoute>
-                  <Signup />
-                </AuthenticationRoute>
-              }
-            />
+            <Route element={<AuthenticationRoute />}>
+              <Route path="/login" element={<Login />} />
+              <Route path="/signup" element={<Signup />} />
+            </Route>
             <Route element={<ProtectedRoute />}>
               <Route path="/dashboard" element={<Dashboard />} />
             </Route>
