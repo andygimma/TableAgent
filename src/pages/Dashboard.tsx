@@ -16,7 +16,10 @@ const Dashboard = () => {
     if (!inputRef.current) return;
 
     autocompleteRef.current = new google.maps.places.Autocomplete(
-      inputRef.current!
+      inputRef.current!,
+      {
+        types: ["restaurant"],
+      }
     );
 
     autocompleteRef.current.addListener("place_changed", () => {
