@@ -1,6 +1,7 @@
 import { useForm, SubmitHandler } from "react-hook-form";
 import supabaseClient from "../services/supabase";
 import { Link } from "react-router-dom";
+import { useState } from "react";
 
 type Inputs = {
   email: string;
@@ -8,16 +9,21 @@ type Inputs = {
 };
 
 export default function LoginForm() {
+  const [supabaseError, setSupabaseError] = useState<string | null>(null);
   const {
     register,
     handleSubmit,
     formState: { errors },
   } = useForm<Inputs>();
-  const onSubmit: SubmitHandler<Inputs> = async (data) => {
-    await supabaseClient.auth.signInWithPassword({
-      password: data.password,
-      email: data.email,
+  const onSubmit: SubmitHandler<Inputs> = async (formData) => {
+    const { error } = await supabaseClient.auth.signInWithPassword({
+      password: formData.password,
+      email: formData.email,
     });
+
+    if (error) {
+      setSupabaseError(error.message);
+    }
   };
 
   return (
@@ -38,6 +44,7 @@ export default function LoginForm() {
         {errors?.password?.type === "minLength" && (
           <span role="alert">Password must be 8 characters long.</span>
         )}
+        {supabaseError && <span role="alert">{supabaseError}</span>}
 
         <input type="submit" />
       </form>

@@ -21,7 +21,7 @@ export default function SignupForm() {
     });
   };
 
-  const password123 = watch("password");
+  const password = watch("password");
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
       <input type="text" {...register("email", { required: true })} />
@@ -43,8 +43,7 @@ export default function SignupForm() {
         type="password"
         {...register("passwordConfirmation", {
           required: "Confirm Password is required",
-          validate: (value) =>
-            value === password123 || "Passwords do not match",
+          validate: (value) => value === password || "Passwords do not match",
         })}
       />
       {errors?.passwordConfirmation?.type === "required" && (
