@@ -7,6 +7,7 @@ import Dashboard from "./pages/Dashboard";
 import supabaseClient from "./services/supabase";
 import { useEffect, useState } from "react";
 import AuthContext from "./contexts/Auth";
+import RestaurantContext from "./contexts/Restaurant";
 import { Session } from "@supabase/supabase-js";
 import ProtectedRoute from "./session-routes/ProtectedRoute";
 import AuthenticationRoute from "./session-routes/AuthenticationRoute";
@@ -41,22 +42,24 @@ function App() {
   return (
     <>
       <AuthContext.Provider value={session}>
-        <Router>
-          <Navbar />
-          <Routes>
-            <Route path="/" element={<Home />} />
-            <Route path="/about" element={<About />} />
-            <Route element={<AuthenticationRoute />}>
-              <Route path="/login" element={<Login />} />
-              <Route path="/signup" element={<Signup />} />
-            </Route>
-            <Route element={<ProtectedRoute />}>
-              <Route path="/dashboard" element={<Dashboard />} />
-            </Route>
-            <Route path="*" element={<>404</>} />
-          </Routes>
-          <Footer />
-        </Router>
+        <RestaurantContext>
+          <Router>
+            <Navbar />
+            <Routes>
+              <Route path="/" element={<Home />} />
+              <Route path="/about" element={<About />} />
+              <Route element={<AuthenticationRoute />}>
+                <Route path="/login" element={<Login />} />
+                <Route path="/signup" element={<Signup />} />
+              </Route>
+              <Route element={<ProtectedRoute />}>
+                <Route path="/dashboard" element={<Dashboard />} />
+              </Route>
+              <Route path="*" element={<>404</>} />
+            </Routes>
+            <Footer />
+          </Router>
+        </RestaurantContext>
       </AuthContext.Provider>
     </>
   );
