@@ -1,4 +1,4 @@
-import { useState, useRef, useContext } from "react";
+import { useState, useRef, useContext, useEffect } from "react";
 import { GoogleMap, LoadScriptNext, Marker } from "@react-google-maps/api";
 import { VITE_GOOGLE_MAPS_API_KEY } from "../utils/constants";
 import { RestaurantContext } from "../contexts/Restaurant";
@@ -8,7 +8,7 @@ const mapContainerStyle = { width: "100%", height: "400px" };
 const defaultCenter = { lat: 40.712776, lng: -74.005974 };
 const Dashboard = () => {
   const { restaurants, setRestaurants } = useContext(RestaurantContext);
-  console.log({ restaurants });
+
   const [selectedPlace, setSelectedPlace] =
     useState<google.maps.places.PlaceResult | null>(null);
   const [mapCenter, setMapCenter] = useState(defaultCenter);
@@ -50,6 +50,12 @@ const Dashboard = () => {
       },
     ]);
   };
+
+  useEffect(() => {
+    localStorage.setItem("restaurants", JSON.stringify(restaurants));
+    const a = localStorage.getItem("restaurants");
+    console.log({ a });
+  }, [restaurants]);
 
   return (
     <>

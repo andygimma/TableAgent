@@ -19,7 +19,9 @@ type RestaurantContextType = {
 };
 
 function Restaurant({ children }: RestaurantProps) {
-  const [restaurants, setRestaurants] = useState<Restaurant[]>([]);
+  const localStorageRestaurants = localStorage.getItem("restaurants") || "";
+  const restuarants2 = JSON.parse(localStorageRestaurants);
+  const [restaurants, setRestaurants] = useState<Restaurant[]>(restuarants2);
 
   return (
     <>
